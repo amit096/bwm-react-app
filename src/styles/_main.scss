@@ -1,2 +1,9 @@
 @import 'variables.scss';
 @import 'src/styles/header/_header.scss';
+@import 'src/styles/rental/_rentalcard.scss';
+
+.page-title{
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 29px;
+}

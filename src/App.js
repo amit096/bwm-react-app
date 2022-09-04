@@ -1,23 +1,20 @@
 import './App.css';
 import { Header } from './shared/header';
-import { RentalCard } from './components/rental/rentalcard';
-
+import { RentalList } from './components/rental/rentallist';
+import { RentalDetail } from './components/rental/rentalDetal';
+import { useState } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <div className='container'>
-        <section id='rentalListing'>
-          <h1 className='page-title'>Your Home All Around the World</h1>
-          <div className='row'>
-            <RentalCard />
-            <RentalCard />
-            <RentalCard />
-            <RentalCard />
-          </div>
-        </section>
+    <BrowserRouter>
+      <div className="App">
+        <Header />
+        <div className='container'>
+          <Route exact path='/' component={RentalList} />
+          <Route exact path='/detail' component={RentalDetail} />
+        </div>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 

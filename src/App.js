@@ -1,20 +1,26 @@
 import './App.css';
 import { Header } from './shared/header';
-import { RentalList } from './components/rental/rentallist';
+import RentalList from './components/rental/rentallist';
 import { RentalDetail } from './components/rental/rentalDetal';
-import { useState } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
 function App() {
+  const store = require('./reducers').init();
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Header />
-        <div className='container'>
-          <Route exact path='/' component={RentalList} />
-          <Route exact path='/detail' component={RentalDetail} />
+
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className="App">
+          <Header />
+          <div className='container'>
+            <Route exact path='/' render={() => { return <Redirect to='/rentals' /> }} />
+            <Route exact path='/rentals' component={RentalList} />
+            <Route exact path='/rentals/:id' component={RentalDetail} />
+          </div>
         </div>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

@@ -1,7 +1,7 @@
 import './App.css';
 import { Header } from './shared/header';
-import RentalList from './components/rental/rentallist';
-import { RentalDetail } from './components/rental/rentalDetal';
+import RentalList from './components/rental/rental-listing/rentallist';
+import RentalDetail from './components/rental/rental-detail/rentalDetal';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 

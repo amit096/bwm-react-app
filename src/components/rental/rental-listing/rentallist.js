@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { RentalCard } from "./rentalcard";
 import { connect } from 'react-redux';
-import * as action from '../../actions';
+import * as action from '../../../actions';
 
 function RentalList(props) {
     function rentallist() {
@@ -12,7 +12,7 @@ function RentalList(props) {
     }
     useEffect(() => {
         props.dispatch(action.fetchRentals());
-    });
+    },[]);
     function rentalListing() {
         return (<section id='rentalListing'>
             <h1 className='page-title'>Your Home All Around the World</h1>

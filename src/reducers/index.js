@@ -1,8 +1,14 @@
-import * as redux from 'redux';
-import {rentalReducer} from './rentals-reducer';
-
-export const init =()=>{
-    const reducer= redux.combineReducers({rentals:rentalReducer});
-    const store = redux.createStore(reducer);
-    return store ;
+import { rentalReducer, rentalDetailReducer } from './rentals-reducer';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+export const init = () => {
+    const reducer = combineReducers({ rentals: rentalReducer, rental: rentalDetailReducer });
+    const composeEnhancers =
+        typeof window === 'object' &&
+            window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+            window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+                // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+            }) : compose;
+    const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+    return store;
 }

@@ -1,6 +1,6 @@
 import './App.css';
 import { Header } from './shared/header';
-import RentalList from './components/rental/rental-listing/rentallist';
+import RentalListing from './components/rental/rental-listing/rentallisting';
 import RentalDetail from './components/rental/rental-detail/rentalDetal';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -15,7 +15,7 @@ function App() {
           <Header />
           <div className='container'>
             <Route exact path='/' render={() => { return <Redirect to='/rentals' /> }} />
-            <Route exact path='/rentals' component={RentalList} />
+            <Route exact path='/rentals' component={RentalListing} />
             <Route exact path='/rentals/:id' component={RentalDetail} />
           </div>
         </div>

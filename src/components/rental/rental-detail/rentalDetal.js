@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import * as action from '../../../actions';
 import { RentalInfo } from './rentalInfo';
-import {MapWithAMarker} from '../../maps/googleMaps';
+import { RentalMap } from './rentalMap';
+
 function RentalDetail(props) {
     useEffect(() => {
         let rentalId = props.match.params.id;
@@ -19,12 +20,7 @@ function RentalDetail(props) {
                                 <img src={rental.image} alt=''></img>
                             </div>
                             <div className='col-md-6'>
-                                <MapWithAMarker
-                                    googleMapURL="https://maps.googleapis.com/maps/api/js?sensor=false&callback=myMap"
-                                    loadingElement={<div style={{ height: `100%` }} />}
-                                    containerElement={<div style={{ height: `360px` }} />}
-                                    mapElement={<div style={{ height: `100%` }} />}
-                                />
+                                <RentalMap location={`${rental.city},${rental.street}`} />
                             </div>
                         </div>
                     </div>

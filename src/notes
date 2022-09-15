@@ -1,0 +1,5 @@
+high order components are just to give additional functionality .
+we need to pass the {...props} to pass all the props chain down below
+
+example:
+withAlert(withDanger(connect(mapStateToProps)(RentalListing)));

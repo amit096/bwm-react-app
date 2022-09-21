@@ -1,5 +1,6 @@
 
 const Rental = require('./models/rental');
+const User = require('./models/users');
 
 class FakeDb {
     constructor() {
@@ -36,20 +37,32 @@ class FakeDb {
             description: "Very nice apartment in center of the city.",
             dailyRate: 23
         }]
+
+        this.User=[{
+            username:"Amit",
+            email:"amit.rath@gmail.com",
+            password:"password"
+        }]
     }
 
     async cleanDb() {
+        await User.deleteMany({});
         await Rental.deleteMany({});
     }
     pushRentalsToDb() {
+        const user=new User(this.User[0]);
         this.rentals.forEach((rental) => {
             const newRentals = new Rental(rental);
+            newRentals.user=user;
+            user.rentals.push(newRentals);
             newRentals.save();
         })
+
+        user.save();
     }
 
     async seedDB() {
-        await this.cleanDb();
+       // await this.cleanDb();
         this.pushRentalsToDb();
     }
 }

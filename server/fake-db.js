@@ -62,7 +62,7 @@ class FakeDb {
     }
 
     async seedDB() {
-       // await this.cleanDb();
+        await this.cleanDb();
         this.pushRentalsToDb();
     }
 }

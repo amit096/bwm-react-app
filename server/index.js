@@ -10,7 +10,7 @@ const usersRoutes = require('./routes/users');
 
 mongoose.connect(config.DB_URL).then(() => {
     const fakeDb = new FakeDb();
-   // fakeDb.seedDB();
+    fakeDb.seedDB();
 });
 app.use(bodyparser.json());
 app.use('/api/v1/rentals', rentalRoutes);

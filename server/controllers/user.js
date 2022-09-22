@@ -38,7 +38,7 @@ exports.register = (req, res) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-    const passwordconfirmation = req.body.passwordconfirmation;
+    const passwordconfirmation = req.body.confirmpassword;
 
     if (!password || !email) {
         return res.status(422).json({ error: [{ title: 'Data missing', message: 'couldnot find email or password' }] })

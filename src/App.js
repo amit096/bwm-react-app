@@ -5,7 +5,7 @@ import RentalDetail from './components/rental/rental-detail/rentalDetal';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Register } from './components/register/register';
-import { Login } from './components/login/login';
+import Login  from './components/login/login';
 
 function App() {
   const store = require('./reducers').init();

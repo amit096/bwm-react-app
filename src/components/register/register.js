@@ -9,10 +9,10 @@ export function Register() {
    const [redirect,setRedirect]=useState(false);
 
     function registerUser(userdata){
-        debugger
+        
      action.register(userdata).then(
         (registered)=>{ setRedirect(true)},
-        (err)=>{ debugger 
+        (err)=>{  
             setErrors(err)
         }
      )

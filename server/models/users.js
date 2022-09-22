@@ -28,10 +28,6 @@ const userSchema = new Schema({
   rentals:[{type:Schema.Types.ObjectId,ref:'Rental'}]
 });
 
-userSchema.methods.hasSamePassword= function(){
-
-}
-
 userSchema.pre('save',(next)=>{
     const user=this;
     bcrypt.genSalt(saltRounds, function(err, salt) {

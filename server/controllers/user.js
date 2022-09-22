@@ -8,7 +8,6 @@ const { normalizeErrors } = require('../helpers/mongoose');
 exports.auth = (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-
     if (!password || !email) {
         return res.status(422).json({ error: [{ title: 'Data missing', message: 'couldnot find email or password' }] })
     }
@@ -17,12 +16,12 @@ exports.auth = (req, res) => {
         if (err) {
             return res.status(422).json({ error: MongooseHelper.normalizeErrors(err.errors) })
         }
+
         if (!existingUsers) {
             return res.status(422).json({ error: [{ title: 'Invalid User', message: 'User dosenot exists' }] })
         }
 
-
-        if (existingUsers.hasSamePassword(password)) {
+        if (existingUsers.password==password) {
             const token = jwt.sign({
                 userId: existingUsers.id,
                 userName: existingUsers.username

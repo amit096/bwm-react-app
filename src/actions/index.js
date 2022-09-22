@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { FETCH_RENTALS_BY_ID_SUCCESS, FETCH_RENTALS_BY_ID_INIT ,FETCH_RENTALS_SUCCESS} from './types';
+import { FETCH_RENTALS_BY_ID_SUCCESS, FETCH_RENTALS_BY_ID_INIT ,FETCH_RENTALS_SUCCESS,LOGIN_SUCCESS,LOGIN_FAILURE} from './types';
 
 const fetchRentalsByIdSeccess = (rentalDetails) => {
     return {
@@ -42,9 +42,35 @@ export const fetchRentalsById = (rentalId) => {
 }
 
 export const register =(userdata)=>{
-    debugger;
  return axios.post('/api/v1/users/register',{...userdata}).then(
     (res)=>{ return res.data;},
     (err)=>{ return Promise.reject(err.response.data.error)}
  )
+}
+
+
+const loginSuccess = (token) => {
+    return {
+        type: LOGIN_SUCCESS,
+        token: token
+    }
+}
+
+
+const loginFailure = (error) => {
+    return {
+        type: LOGIN_FAILURE,
+        error
+    }
+}
+
+export function login(userdata){
+    return (dispatch) => {
+        axios.post('/api/v1/users/auth',{...userdata}).then((res)=>res.data).then((token)=>{
+            localStorage.setItem('auth_token',token);
+            dispatch(loginSuccess(token));
+        }).catch((err)=>{
+            dispatch(loginFailure(err.response.data.errors));
+        });
+    }
 }

@@ -2,6 +2,7 @@
 @import 'src/styles/header/_header.scss';
 @import 'src/styles/rental/_rentalcard.scss';
 @import 'src/styles/rental/_rentalsdetails.scss';
+@import 'src/styles/forms/_form.scss';
 
 .page-title{
     font-size: 30px;
@@ -19,4 +20,16 @@
 
 .condo{
 color: #d68000;
+}
+
+.btn-bwm{
+  background-color: $main-color;
+  border-color: $main-color;
+  color: white;
+  padding: 15px 30px;
+  font-size: 20px;
+  &:hover,&:focus,&:active{
+    background-color: $main-color !important;
+    border-color: $main-color !important;
+  }
 }

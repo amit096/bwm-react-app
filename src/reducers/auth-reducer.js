@@ -1,19 +1,22 @@
 
-import { LOGIN_FAILURE,LOGIN_SUCCESS} from '../actions/types';
+import { LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT } from '../actions/types';
 
 const INITIAL_STATE = {
-   isAuth:false,
-   token:'',
-   errors:[]
+    isAuth: false,
+    errors: []
 }
 export const authReducer = (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
         case LOGIN_SUCCESS: {
-            return Object.assign({},state,{isAuth:true,  token:action.token,errors:[]});
+            return Object.assign({}, state, { isAuth: true, errors: [] });
         }
         case LOGIN_FAILURE: {
-            return Object.assign( {},state, {errors:action.errors});
+            return Object.assign({}, state, { errors: action.errors });
+        }
+
+        case LOGOUT: {
+            return Object.assign({}, state, { isAuth: true });
         }
         default:
             return state

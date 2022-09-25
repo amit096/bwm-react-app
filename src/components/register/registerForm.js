@@ -41,7 +41,7 @@ const RegisterForm = props => {
                 component={renderField}
             />
             <button className='btn btn-bwm btn-form' type="submit" disabled={!valid || pristine || submitting}>
-                Submit
+                Register
             </button>
             {
                <ResError errors={errors}/>

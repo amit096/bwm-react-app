@@ -1,6 +1,9 @@
 
 import axios from 'axios';
-import { FETCH_RENTALS_BY_ID_SUCCESS, FETCH_RENTALS_BY_ID_INIT ,FETCH_RENTALS_SUCCESS,LOGIN_SUCCESS,LOGIN_FAILURE} from './types';
+import { FETCH_RENTALS_BY_ID_SUCCESS, 
+    FETCH_RENTALS_BY_ID_INIT, FETCH_RENTALS_SUCCESS, 
+    LOGIN_SUCCESS, LOGIN_FAILURE ,LOGOUT} from './types';
+import AuthService from '../services/auth-service';
 
 const fetchRentalsByIdSeccess = (rentalDetails) => {
     return {
@@ -23,7 +26,7 @@ const fetchRentalsSeccess = (rentalDetails) => {
 
 export const fetchRentals = () => {
     return (dispatch) => {
-        axios.get(`/api/v1/rentals`).then(
+        axios.get(`/rentals`).then(
             (rentalDetails) => {
                 dispatch(fetchRentalsSeccess(rentalDetails.data))
             });
@@ -41,36 +44,54 @@ export const fetchRentalsById = (rentalId) => {
     }
 }
 
-export const register =(userdata)=>{
- return axios.post('/api/v1/users/register',{...userdata}).then(
-    (res)=>{ return res.data;},
-    (err)=>{ return Promise.reject(err.response.data.error)}
- )
+export const register = (userdata) => {
+    return axios.post('/api/v1/users/register', { ...userdata }).then(
+        (res) => {
+            localStorage.removeItem("auth_token");
+            return res.data;
+        },
+        (err) => { return Promise.reject(err.response.data.error) }
+    )
 }
 
 
-const loginSuccess = (token) => {
+const loginSuccess = () => {
     return {
         type: LOGIN_SUCCESS,
-        token: token
     }
+
 }
 
 
-const loginFailure = (error) => {
+const loginFailure = (errors) => {
     return {
         type: LOGIN_FAILURE,
-        error
+        errors
+    }
+}
+export function checkAuthState() {
+    const authService = new AuthService();
+    return (dispatch) => {
+        if (authService.isAuthenticated()) {
+            dispatch(loginSuccess());
+        }
+    }
+}
+export function login(userdata) {
+    return (dispatch) => {
+        axios.post('/api/v1/users/auth', { ...userdata }).then((res) => res.data).then((token) => {
+            localStorage.setItem('auth_token', token.token);
+            dispatch(loginSuccess());
+        }).catch((err) => {
+            debugger;
+            dispatch(loginFailure(err.response.data.error));
+        });
     }
 }
 
-export function login(userdata){
-    return (dispatch) => {
-        axios.post('/api/v1/users/auth',{...userdata}).then((res)=>res.data).then((token)=>{
-            localStorage.setItem('auth_token',token);
-            dispatch(loginSuccess(token));
-        }).catch((err)=>{
-            dispatch(loginFailure(err.response.data.errors));
-        });
+export const logout=() => {
+    localStorage.removeItem("auth_token");
+    return {
+        type: LOGOUT
     }
 }

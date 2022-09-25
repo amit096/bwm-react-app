@@ -2,10 +2,17 @@ import React from "react";
 import LoginForm from './loginForm';
 import { connect } from "react-redux";
 import * as action from '../../actions/index';
+import { Redirect } from "react-router-dom";
 
 function Login(props) {
     function loginUser(userdata) {
         props.dispatch(action.login(userdata));
+    }
+    const { isAuth, errors } = props.auth;
+    const { successRegister } = props.location.state || false;
+    const token=localStorage.getItem('auth_token');
+    if (isAuth && token) {
+        return <Redirect to={{ pathname: '/rentals' }} />
     }
 
     return (
@@ -14,7 +21,12 @@ function Login(props) {
                 <div className="row">
                     <div className="col-md-5">
                         <h1>Login</h1>
-                        <LoginForm submitCb={loginUser} />
+                        {
+                            successRegister && <div className='alert alert-success'>
+                                <p>You have been successfully register ,Please login !!</p>
+                            </div>
+                        }
+                        <LoginForm submitCb={loginUser} errors={errors} />
                     </div>
                     <div className="col-md-6 ml-auto">
                         <div className="image-container">

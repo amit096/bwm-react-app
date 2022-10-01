@@ -11,7 +11,7 @@ export const LoginForm = props => {
             <Field
                 name="email"
                 type="email"
-                label='email'
+                label='Email'
                 placeholder="Email"
                 className='form-control'
                 component={renderField}
@@ -20,7 +20,7 @@ export const LoginForm = props => {
             <Field
                 name="password"
                 type="password"
-                label='password'
+                label='Password'
                 placeholder="Password"
                 className='form-control'
                 component={renderField}

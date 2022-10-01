@@ -4,6 +4,9 @@ import { FETCH_RENTALS_BY_ID_SUCCESS,
     FETCH_RENTALS_BY_ID_INIT, FETCH_RENTALS_SUCCESS, 
     LOGIN_SUCCESS, LOGIN_FAILURE ,LOGOUT} from './types';
 import AuthService from '../services/auth-service';
+import axiosService from '../services/axios-service';
+
+const axiosInstance = axiosService.getInstance();
 
 const fetchRentalsByIdSeccess = (rentalDetails) => {
     return {
@@ -26,7 +29,7 @@ const fetchRentalsSeccess = (rentalDetails) => {
 
 export const fetchRentals = () => {
     return (dispatch) => {
-        axios.get(`/rentals`).then(
+        axiosInstance.get(`/rentals`).then(
             (rentalDetails) => {
                 dispatch(fetchRentalsSeccess(rentalDetails.data))
             });
@@ -37,7 +40,7 @@ export const fetchRentals = () => {
 export const fetchRentalsById = (rentalId) => {
     return (dispatch) => {
         dispatch(fetchRentalsByIdInit());
-        axios.get(`/api/v1/rentals/${rentalId}`).then(
+        axiosInstance.get(`/rentals/${rentalId}`).then(
             (rentalDetails) => {
                 dispatch(fetchRentalsByIdSeccess(rentalDetails.data))
             });
@@ -45,7 +48,7 @@ export const fetchRentalsById = (rentalId) => {
 }
 
 export const register = (userdata) => {
-    return axios.post('/api/v1/users/register', { ...userdata }).then(
+    return axiosInstance.post('/users/register', { ...userdata }).then(
         (res) => {
             localStorage.removeItem("auth_token");
             return res.data;
@@ -79,7 +82,7 @@ export function checkAuthState() {
 }
 export function login(userdata) {
     return (dispatch) => {
-        axios.post('/api/v1/users/auth', { ...userdata }).then((res) => res.data).then((token) => {
+        axiosInstance.post('/users/auth', { ...userdata }).then((res) => res.data).then((token) => {
             localStorage.setItem('auth_token', token.token);
             dispatch(loginSuccess());
         }).catch((err) => {

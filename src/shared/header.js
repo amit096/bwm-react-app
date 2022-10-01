@@ -1,12 +1,17 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 
 function Header(props) {
+  function handleLogout() {
+    props.logout();
+    props.history.push('/rentals'); //history object is avalable because of this withrouter component
+  }
+
   function renderAuthButtons() {
     const token = localStorage.getItem('auth_token')
     if (token) {
-      return <Link className='nav-item nav-link active clickable' to='/login' onClick={props.logout}>Logout</Link>;
+      return <Link className='nav-item nav-link active clickable' to='/login' onClick={handleLogout}>Logout</Link>;
     }
     return (
       <>
@@ -43,4 +48,4 @@ function mapStateToProps(state) {
 
 }
 
-export default connect(mapStateToProps)(Header);
+export default withRouter(connect(mapStateToProps)(Header));

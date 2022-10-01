@@ -11,7 +11,7 @@ const RegisterForm = props => {
             <Field
                 name="username"
                 type="text"
-                label='username'
+                label='Username'
                 placeholder="First Name"
                 className='form-control'
                 component={renderField}
@@ -19,7 +19,7 @@ const RegisterForm = props => {
             <Field
                 name="email"
                 type="email"
-                label='email'
+                label='Email'
                 placeholder="Email"
                 className='form-control'
                 component={renderField}
@@ -27,7 +27,7 @@ const RegisterForm = props => {
             <Field
                 name="password"
                 type="password"
-                label='password'
+                label='Password'
                 placeholder="Password"
                 className='form-control'
                 component={renderField}
@@ -35,7 +35,7 @@ const RegisterForm = props => {
             <Field
                 name="confirmpassword"
                 type="password"
-                label='confirmpassword'
+                label='Confirm Password'
                 placeholder="Confirm Password"
                 className='form-control'
                 component={renderField}

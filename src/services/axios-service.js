@@ -14,7 +14,7 @@ class AxiosService {
             baseURL: '/api/v1',
             timeout: 5000
         })
-        this.axiosInstance.intercepters.request.use((config) => {
+        this.axiosInstance.interceptors.request.use((config) => {
             const token = this.authService.getToke();
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`
@@ -29,4 +29,4 @@ class AxiosService {
     }
 }
 
-export default  AxiosService;
+export default  new AxiosService();

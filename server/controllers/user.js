@@ -79,7 +79,7 @@ exports.authMiddleware=(req,res,next)=>{
             return res.status(422).send({errors:normalizeErrors(err.errors)});
         }
         if(user){
-            res.local.user=user;
+            res.locals.user=user;
             next();
         }else{
             return res.status(401).json({ error: [{ title: 'Non Authorized', message: 'You need to log in to get authorized' }] });

@@ -10,6 +10,7 @@ function RentalDetail(props) {
         props.dispatch(action.fetchRentalsById(rentalId));
     }, []);
     const rental = props.rental;
+    debugger;
     return (
         (rental._id) ?
             <>

@@ -71,26 +71,33 @@ exports.register = (req, res) => {
 }
 
 exports.authMiddleware=(req,res,next)=>{
-    const token = req.header.authorization;
-    if(token){
-      const user = parseToken(token);
-      User.findById(user.userId,(err,user)=>{
-        if(err){
-            return res.status(422).send({errors:normalizeErrors(err.errors)});
-        }
-        if(user){
-            res.locals.user=user;
-            next();
-        }else{
-            return res.status(401).json({ error: [{ title: 'Non Authorized', message: 'You need to log in to get authorized' }] });
-        }
-      })
-    }else{
-        return res.status(401).json({ error: [{ title: 'Non Authorized', message: 'You need to log in to get authorized' }] });
-    }
+    const token = req.headers.authorization;
+
+  if (token) {
+    const user = parseToken(token);
+
+    User.findById(user.userId, function(err, user) {
+      if (err) {
+        return res.status(422).send({errors: normalizeErrors(err.errors)});
+      }
+
+      if (user) {
+        res.locals.user = user;
+        next();
+      } else {
+        return notAuthorized(res);
+      }
+    })
+  } else {
+    return notAuthorized(res);
+  }
 }
 
 function parseToken(token){
 
     return jwt.verify(token.split(' ')[1],SECRET)
 }
+
+function notAuthorized(res) {
+    return res.status(401).send({errors: [{title: 'Not authorized!', detail: 'You need to login to get access!'}]});
+  }

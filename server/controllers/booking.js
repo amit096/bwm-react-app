@@ -5,43 +5,47 @@ const Rental = require('../models/rental');
 const moment = require('moment');
 const User = require('../models/users');
 
-exports.createBooking = (req, res) => {
+exports.createBooking = function(req, res) {
     const { startAt, endAt, totalPrice, guests, days, rental } = req.body;
     const user = res.locals.user;
-    const booking = new Booking({ startAt, endAt, totalPrice, guests, days });
-
-    Rental.findById(rental._id).populate('bookings').populate('user').exec((err, foundRental) => {
-        if (err) {
-            return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
-
-        if (foundRental.user.id == user.id) {
-            return res.status(422).json({ error: [{ title: 'InValid User!!', message: 'Canont create a booking on your own property' }] });
-        }
-
-        if (isValidBooking(booking, foundRental)) {
-
-            booking.user = user;
-            booking.rental = foundRental;
-            foundRental.bookings.push(booking);
-
-            booking.save((err) => {
-                if (err) {
-                    return res.status(422).send({ errors: normalizeErrors(err.errors) });
-                }
-                foundRental.save();
-                User.update({ _id: user.id }, { $push: { bookings: booking } }, (err) => {
-                    return res.status(422).send({ errors: normalizeErrors(err.errors) });
-                });
-            });
-            return res.json({ startAt: booking.startAt, endAt: booking.endAt });
-        } else {
-            return res.status(422).json({ error: [{ title: 'InValid Booking!!', message: 'Booking dates already taken' }] });
-        }
-
+  
+    const booking = new Booking({ startAt, endAt, totalPrice, guests, days});
+  
+    Rental.findById(rental._id)
+          .populate('bookings')
+          .populate('user')
+          .exec(async function(err, foundRental) {
+  
+      if (err) {
+        return res.status(422).send({errors: normalizeErrors(err.errors)});
+      }
+     /// booking for own property
+    //   if (foundRental.user.id === user.id) {
+    //     return res.status(422).send({errors: [{title: 'Invalid User!', detail: 'Cannot create booking on your Rental!'}]});
+    //   }
+  
+      if (isValidBooking(booking, foundRental)) {
+        booking.user = user;
+        booking.rental = foundRental;
+        foundRental.bookings.push(booking);
+      
+          booking.save(function(err) {
+            if (err) {
+              return res.status(422).send({errors: normalizeErrors(err.errors)});
+            }
+  
+            foundRental.save()
+            User.update({_id: user.id}, {$push: {bookings: booking}}, function(){});
+  
+            return res.json({startAt: booking.startAt, endAt: booking.endAt});
+          });
+        
+      } else {
+  
+         return res.status(422).send({errors: [{title: 'Invalid Booking!', detail: 'Choosen dates are already taken!'}]});
+      }
     })
-}
-
+  }
 function isValidBooking(booking, rental) {
     let isValid = true;
 

@@ -48,7 +48,7 @@ export const fetchRentalsById = (rentalId) => {
 }
 
 export const register = (userdata) => {
-    return axiosInstance.post('/users/register', { ...userdata }).then(
+    return axiosInstance.post('/users/register', userdata).then(
         (res) => {
             localStorage.removeItem("auth_token");
             return res.data;
@@ -82,11 +82,11 @@ export function checkAuthState() {
 }
 export function login(userdata) {
     return (dispatch) => {
-        axiosInstance.post('/users/auth', { ...userdata }).then((res) => res.data).then((token) => {
+        axiosInstance.post('/users/auth', userdata).then((res) => res.data).then((token) => {
             localStorage.setItem('auth_token', token.token);
             dispatch(loginSuccess());
         }).catch((err) => {
-            debugger;
+           
             dispatch(loginFailure(err.response.data.error));
         });
     }
@@ -98,3 +98,10 @@ export const logout=() => {
         type: LOGOUT
     }
 }
+
+export const createBooking = (booking) => {
+    debugger;
+    return axiosInstance.post('/bookings', booking)
+        .then(res => res.data)
+        .catch((err) => Promise.reject(err.response.data.errors))
+  }

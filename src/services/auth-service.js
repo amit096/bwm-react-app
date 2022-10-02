@@ -22,11 +22,11 @@ class AuthService {
 
     isAuthenticated() {
         const token = this.getToke();
-        debugger;
+       
         if (token && this.isValid(token)) {
             return true;
         }
-        debugger;
+       
         return false;
     }
 }

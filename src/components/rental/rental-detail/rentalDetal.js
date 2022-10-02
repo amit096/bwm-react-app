@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as action from '../../../actions';
 import { RentalInfo } from './rentalInfo';
 import { RentalMap } from './rentalMap';
+import  Booking  from '../../booking/booking';
 
 function RentalDetail(props) {
     useEffect(() => {
@@ -10,7 +11,7 @@ function RentalDetail(props) {
         props.dispatch(action.fetchRentalsById(rentalId));
     }, []);
     const rental = props.rental;
-    debugger;
+   
     return (
         (rental._id) ?
             <>
@@ -31,7 +32,7 @@ function RentalDetail(props) {
                             <div className='col-md-8'>
                                 <RentalInfo rental={rental} />
                             </div>
-                            <div className='col-md-4'> BOOKING</div>
+                            <div className='col-md-4'> <Booking rental={rental}/></div>
                         </div>
                     </div>
                 </section>

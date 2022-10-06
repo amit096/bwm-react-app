@@ -8,6 +8,8 @@ function RentalListing(props) {
         props.dispatch(action.fetchRentals());
     },[]);
     function rentalListing() {
+      
+
         return (<section id='rentalListing'>
             <h1 className='page-title'>Your Home All Around the World</h1>
             <div className='row'>

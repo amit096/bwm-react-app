@@ -11,7 +11,7 @@ const bookingsRoutes =require('./routes/booking');
 
 mongoose.connect(config.DB_URL).then(() => {
    const fakeDb = new FakeDb();
-   //fakeDb.seedDB();
+  // fakeDb.seedDB();
     console.log('conncetion of DB successful');
 });
 app.use(bodyparser.json());

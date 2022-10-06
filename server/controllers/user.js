@@ -13,7 +13,6 @@ exports.auth = (req, res) => {
     }
 
     User.findOne({ email }, (err, existingUsers) => {
-        console.log(existingUsers);
         if (err) {
             return res.status(422).json({ error: MongooseHelper.normalizeErrors(err.errors) })
         }

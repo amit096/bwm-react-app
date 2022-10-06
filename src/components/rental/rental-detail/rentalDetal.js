@@ -11,7 +11,8 @@ function RentalDetail(props) {
         props.dispatch(action.fetchRentalsById(rentalId));
     }, []);
     const rental = props.rental;
-   
+    let image=props.rental.image?props.rental.image : process.env.PUBLIC_URL+'https://booksync-jerga-prod.s3.amazonaws.com/uploads/rental/image/5/image.jpeg';
+  
     return (
         (rental._id) ?
             <>
@@ -19,7 +20,7 @@ function RentalDetail(props) {
                     <div className='upper-section'>
                         <div className='row'>
                             <div className='col-md-6'>
-                                <img src={rental.image} alt=''></img>
+                                <img src={image} alt=''></img>
                             </div>
                             <div className='col-md-6'>
                                 <RentalMap location={`${rental.city},${rental.street}`} />

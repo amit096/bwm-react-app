@@ -15,8 +15,6 @@ class AuthService {
     }
 
     isValid(token) {
-        console.log((new Date()).getTime() / 1000);
-        console.log(this.getExpiration(token));
         return (new Date()).getTime() / 1000 < this.getExpiration(token);
     }
 

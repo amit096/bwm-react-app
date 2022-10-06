@@ -23,3 +23,5 @@ export const getRangeOfDates = (startAt, endAt, dateFormat = 'Y/MM/DD') => {
   
     return tempDates;
   }
+
+  export const toUpperCase = value => value ? titleize(value) : '';

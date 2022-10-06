@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { FETCH_RENTALS_BY_ID_SUCCESS, 
     FETCH_RENTALS_BY_ID_INIT, FETCH_RENTALS_SUCCESS, 
-    LOGIN_SUCCESS, LOGIN_FAILURE ,LOGOUT} from './types';
+    LOGIN_SUCCESS, LOGIN_FAILURE ,LOGOUT,FETCH_RENTALS_INIT,FETCH_RENTALS_FAIL} from './types';
 import AuthService from '../services/auth-service';
 import axiosService from '../services/axios-service';
 
@@ -26,13 +26,29 @@ const fetchRentalsSeccess = (rentalDetails) => {
         rental: rentalDetails
     }
 }
+const fetchRentalsInit = () => {
+    return {
+      type: FETCH_RENTALS_INIT
+    }
+  }
 
-export const fetchRentals = () => {
-    return (dispatch) => {
-        axiosInstance.get(`/rentals`).then(
-            (rentalDetails) => {
-                dispatch(fetchRentalsSeccess(rentalDetails.data))
-            });
+  const fetchRentalsFail = (errors) => {
+    return {
+      type: FETCH_RENTALS_FAIL,
+      errors
+    }
+  }
+
+export const fetchRentals = (city) => {
+    const url = city ? `/rentals?city=${city}` : '/rentals';
+
+    return dispatch => {
+      dispatch(fetchRentalsInit());
+  
+      axiosInstance.get(url)
+        .then(res => res.data )
+        .then(rentals => dispatch(fetchRentalsSeccess(rentals)))
+        .catch(({response}) => dispatch(fetchRentalsFail(response.data.errors)))
     }
 }
 
@@ -100,8 +116,28 @@ export const logout=() => {
 }
 
 export const createBooking = (booking) => {
-    debugger;
+  ;
     return axiosInstance.post('/bookings', booking)
         .then(res => res.data)
         .catch((err) => Promise.reject(err.response.data.errors))
+  }
+
+
+  export const createRental = (rentalData) => {
+    return axiosInstance.post('/rentals', rentalData).then(
+      res => res.data,
+      err => Promise.reject(err.response.data.errors)
+    )
+  }
+
+
+  export const uploadImage = image => {
+    const formData = new FormData();
+    formData.append('image', image);
+  
+    return axiosInstance.post('/image-upload', formData)
+      .then(json => {
+        return json.data.imageUrl;
+      })
+      .catch(({response}) => Promise.reject(response.data.errors[0]))
   }

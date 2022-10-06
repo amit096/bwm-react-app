@@ -2,8 +2,9 @@ import React from "react";
 import { RentalCard } from "./rentalcard";
 
 export function RentalList(props) {
+  ;
     function rentallist() {
-        return (props.rentals.map((rental, index) => {
+        return ( props.rentals && props.rentals.map((rental, index) => {
             return <RentalCard rentalData={rental} key={index} />
         })
         );

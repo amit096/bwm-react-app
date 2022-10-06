@@ -75,7 +75,7 @@ class Booking extends React.Component {
         this.setState({
             proposedBooking: {
                 ...this.state.proposedBooking,
-                guests: parseInt(event.target.value, 10)
+                guests: parseInt(event.target.value, 10)>0?parseInt(event.target.value, 10):0
             }
         })
     }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
+import RentalSearchInput  from '../components/rental/rentalSearchInput';
 
 function Header(props) {
   function handleLogout() {
@@ -11,7 +12,10 @@ function Header(props) {
   function renderAuthButtons() {
     const token = localStorage.getItem('auth_token')
     if (token) {
-      return <Link className='nav-item nav-link active clickable' to='/login' onClick={handleLogout}>Logout</Link>;
+      return(<>
+       <Link className='nav-item nav-link' to='/rentals/create/new'>Create Rental</Link>
+       <Link className='nav-item nav-link active clickable' to='/login' onClick={handleLogout}>Logout</Link>;
+       </>)
     }
     return (
       <>
@@ -25,8 +29,7 @@ function Header(props) {
       <div className='container'>
         <Link className='navbar-brand' to='/'>BookWithMe</Link>
         <form className='form-inline my-2 my-lg-0'>
-          <input className='form-control mr-sm-2 bwm-search' type='search' placeholder="Try 'Delhi'" aria-label='Search'></input>
-          <button className='btn btn-outline-success my-2 my-sm-0 btn-bwm-search' type='submit'>Search</button>
+        <RentalSearchInput />
         </form>
         <button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation'>
           <span className='navbar-toggler-icon'></span>

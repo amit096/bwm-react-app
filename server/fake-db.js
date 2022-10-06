@@ -1,13 +1,14 @@
 
 const Rental = require('./models/rental');
 const User = require('./models/users');
-const fakeDbData = require('./data.json');
 const Booking = require('./models/booking');
+
+const fakeDbData = require('./data.json');
 
 class FakeDb {
     constructor() {
         this.rentals = fakeDbData.rentals;
-    this.User = fakeDbData.users;
+        this.User = fakeDbData.users;
     }
 
     async cleanDb() {
@@ -16,17 +17,15 @@ class FakeDb {
         await Booking.deleteMany({});
     }
     pushRentalsToDb() {
-        const user=new User(this.User[0]);
-        const user1=new User(this.User[1]);
+        const user = new User(this.User[0]);
         this.rentals.forEach((rental) => {
             const newRentals = new Rental(rental);
-            newRentals.user=user;
+            newRentals.user = user;
             user.rentals.push(newRentals);
             newRentals.save();
         })
 
         user.save();
-        user1.save();
     }
 
     async seedDB() {

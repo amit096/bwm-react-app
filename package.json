@@ -1,6 +1,10 @@
 {
   "name": "bwm-react-cli",
   "version": "0.1.0",
+  "engines": {
+    "node": "16.17.0",
+    "npm": "8.15.0"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -43,10 +47,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "heroku-postbuild": "npm run build",
     "build-scss": "node-sass-chokidar ./src -o ./src",
     "watch-css": "npm run build-scss && node-sass-chokidar ./src -o ./src --watch --recursive",
     "start-js": "node ./node_modules/react-scripts/bin/react-scripts.js start",
-    "start": "npm-run-all -p watch-css start-js",
+    "start": "npm start --prefix server",
+    "start-dev": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts build",
     "build": "npm-run-all build-scss build-js",
     "test": "react-scripts test",

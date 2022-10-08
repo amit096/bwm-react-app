@@ -2,7 +2,7 @@
 const User = require('../models/users');
 const MongooseHelper = require('../helpers/mongoose');
 const jwt = require('jsonwebtoken');
-const { SECRET } = require('../config/dev');
+const { SECRET } = require('../config/index');
 const { normalizeErrors } = require('../helpers/mongoose');
 
 exports.auth = (req, res) => {

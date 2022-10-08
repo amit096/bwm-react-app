@@ -23,11 +23,11 @@ app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/bookings', bookingsRoutes);
 
 
-    const appPath = path.join(__dirname, '..', 'dist');
+    const appPath = path.join(__dirname, '..', 'build');
     app.use(express.static(appPath));
 
     app.get('*', function (req, res) {
-        res.sendFile(path.resolve(appPath, 'index.html'));
+        res.sendFile(path.resolve('/build/index.html'));
     });
 
 const PORT = process.env.PORT || 44571;

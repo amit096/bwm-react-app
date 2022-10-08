@@ -2,8 +2,8 @@
   "name": "bwm-react-cli",
   "version": "0.1.0",
   "engines": {
-    "node": "14.17.0",
-    "npm": "6.14.13"
+    "node": "16.17.0",
+    "npm": "8.15.0"
   },
   "private": true,
   "dependencies": {

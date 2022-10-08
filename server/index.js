@@ -23,7 +23,7 @@ app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/bookings', bookingsRoutes);
 
 
-    const appPath = path.join(__dirname, '..', 'build');
+    const appPath = path.join(__dirname, '..', 'dist');
     app.use(express.static(appPath));
 
     app.get('*', function (req, res) {

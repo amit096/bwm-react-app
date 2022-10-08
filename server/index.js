@@ -23,12 +23,14 @@ app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/bookings', bookingsRoutes);
 
 
-    const appPath = path.join(__dirname, '..', 'build');
+if (process.env.NODE_ENV === 'production') {
+    const appPath = path.join(__dirname, '..', 'dist');
     app.use(express.static(appPath));
-
-    app.get('*', function (req, res) {
-        res.sendFile(path.resolve('/build/index.html'));
+  
+    app.get('*', function(req, res) {
+      res.sendFile(path.resolve('build/index.html'));
     });
+  }
 
 const PORT = process.env.PORT || 44571;
 

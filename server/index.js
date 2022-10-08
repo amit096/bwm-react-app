@@ -30,7 +30,7 @@ app.use('/api/v1/bookings', bookingsRoutes);
         res.sendFile(path.resolve(appPath, 'index.html'));
     });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 44571;
 
 app.listen(PORT, () => {
     console.log(`node is running at port ${PORT}`)

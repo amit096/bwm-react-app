@@ -53,8 +53,8 @@
     "start-js": "node ./node_modules/react-scripts/bin/react-scripts.js start",
     "start": "npm start --prefix server",
     "start-dev": "npm-run-all -p watch-css start-js",
-    "build-js": "CI=false && react-scripts build",
-    "build": "CI=false && npm rebuild node-sass npm-run-all build-scss build-js",
+    "build-js": "react-scripts build",
+    "build": "npm rebuild node-sass npm-run-all build-scss build-js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -24,7 +24,7 @@ app.use('/api/v1/bookings', bookingsRoutes);
 
 
 if (process.env.NODE_ENV === 'production') {
-    const appPath = path.join(__dirname, '..', 'dist');
+    const appPath = path.join(__dirname, '..', 'build');
     app.use(express.static(appPath));
   
     app.get('*', function(req, res) {

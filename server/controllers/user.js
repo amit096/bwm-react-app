@@ -21,12 +21,12 @@ exports.auth = (req, res) => {
             return res.status(422).json({ error: [{ title: 'Invalid User', message: 'User dosenot exists' }] })
         }
 
-        if (existingUsers.password==password) {
+        if (existingUsers.password == password) {
             const token = jwt.sign({
                 userId: existingUsers.id,
                 userName: existingUsers.username
             }, SECRET, { expiresIn: '1h' });
-            return res.json({ token });
+            return res.json({ "token": token, "users": existingUsers });
         } else {
             return res.status(422).json({ error: [{ title: 'Wrong Detail', message: 'Wrong email or Password ' }] })
         }
@@ -69,34 +69,34 @@ exports.register = (req, res) => {
     });
 }
 
-exports.authMiddleware=(req,res,next)=>{
+exports.authMiddleware = (req, res, next) => {
     const token = req.headers.authorization;
 
-  if (token) {
-    const user = parseToken(token);
+    if (token) {
+        const user = parseToken(token);
 
-    User.findById(user.userId, function(err, user) {
-      if (err) {
-        return res.status(422).send({errors: normalizeErrors(err.errors)});
-      }
+        User.findById(user.userId, function (err, user) {
+            if (err) {
+                return res.status(422).send({ errors: normalizeErrors(err.errors) });
+            }
 
-      if (user) {
-        res.locals.user = user;
-        next();
-      } else {
+            if (user) {
+                res.locals.user = user;
+                next();
+            } else {
+                return notAuthorized(res);
+            }
+        })
+    } else {
         return notAuthorized(res);
-      }
-    })
-  } else {
-    return notAuthorized(res);
-  }
+    }
 }
 
-function parseToken(token){
+function parseToken(token) {
 
-    return jwt.verify(token.split(' ')[1],SECRET)
+    return jwt.verify(token.split(' ')[1], SECRET)
 }
 
 function notAuthorized(res) {
-    return res.status(401).send({errors: [{title: 'Not authorized!', detail: 'You need to login to get access!'}]});
-  }
+    return res.status(401).send({ errors: [{ title: 'Not authorized!', detail: 'You need to login to get access!' }] });
+}

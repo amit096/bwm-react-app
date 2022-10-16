@@ -13,6 +13,7 @@ function Header(props) {
     const token = localStorage.getItem('auth_token')
     if (token) {
       return(<>
+      <Link className='nav-item nav-link' to='/bookings'>Bookings</Link>
        <Link className='nav-item nav-link' to='/rentals/create/new'>Create Rental</Link>
        <Link className='nav-item nav-link active clickable' to='/login' onClick={handleLogout}>Logout</Link>;
        </>)

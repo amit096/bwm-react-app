@@ -1,8 +1,10 @@
 
-import axios from 'axios';
-import { FETCH_RENTALS_BY_ID_SUCCESS, 
-    FETCH_RENTALS_BY_ID_INIT, FETCH_RENTALS_SUCCESS, 
-    LOGIN_SUCCESS, LOGIN_FAILURE ,LOGOUT,FETCH_RENTALS_INIT,FETCH_RENTALS_FAIL} from './types';
+import {
+    FETCH_RENTALS_BY_ID_SUCCESS,
+    FETCH_RENTALS_BY_ID_INIT, FETCH_RENTALS_SUCCESS,
+    LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, FETCH_RENTALS_INIT, FETCH_RENTALS_FAIL,
+    FETCH_BOOKING_BY_ID_SUCCESS,FETCH_BOOKING_BY_ID_INIT
+} from './types';
 import AuthService from '../services/auth-service';
 import axiosService from '../services/axios-service';
 
@@ -28,27 +30,39 @@ const fetchRentalsSeccess = (rentalDetails) => {
 }
 const fetchRentalsInit = () => {
     return {
-      type: FETCH_RENTALS_INIT
+        type: FETCH_RENTALS_INIT
     }
-  }
+}
 
-  const fetchRentalsFail = (errors) => {
+const fetchRentalsFail = (errors) => {
     return {
-      type: FETCH_RENTALS_FAIL,
-      errors
+        type: FETCH_RENTALS_FAIL,
+        errors
     }
-  }
+}
+
+const fetchBookingByIdSeccess = (bookingDetails) => {
+    return {
+        type: FETCH_BOOKING_BY_ID_SUCCESS,
+        booking: bookingDetails
+    }
+}
+const fetchBookingByIdInit = () => {
+    return {
+        type: FETCH_BOOKING_BY_ID_INIT
+    }
+}
 
 export const fetchRentals = (city) => {
     const url = city ? `/rentals?city=${city}` : '/rentals';
 
     return dispatch => {
-      dispatch(fetchRentalsInit());
-  
-      axiosInstance.get(url)
-        .then(res => res.data )
-        .then(rentals => dispatch(fetchRentalsSeccess(rentals)))
-        .catch(({response}) => dispatch(fetchRentalsFail(response.data.errors)))
+        dispatch(fetchRentalsInit());
+
+        axiosInstance.get(url)
+            .then(res => res.data)
+            .then(rentals => dispatch(fetchRentalsSeccess(rentals)))
+            .catch(({ response }) => dispatch(fetchRentalsFail(response.data.errors)))
     }
 }
 
@@ -67,6 +81,7 @@ export const register = (userdata) => {
     return axiosInstance.post('/users/register', userdata).then(
         (res) => {
             localStorage.removeItem("auth_token");
+            localStorage.removeItem("bookings");
             return res.data;
         },
         (err) => { return Promise.reject(err.response.data.error) }
@@ -99,45 +114,58 @@ export function checkAuthState() {
 export function login(userdata) {
     return (dispatch) => {
         axiosInstance.post('/users/auth', userdata).then((res) => res.data).then((token) => {
+            let bookings = token.users.bookings || [];
             localStorage.setItem('auth_token', token.token);
+            localStorage.setItem('bookings', bookings);
             dispatch(loginSuccess());
         }).catch((err) => {
-           
+
             dispatch(loginFailure(err.response.data.error));
         });
     }
 }
 
-export const logout=() => {
+export const logout = () => {
     localStorage.removeItem("auth_token");
+    localStorage.removeItem("bookings");
     return {
         type: LOGOUT
     }
 }
 
 export const createBooking = (booking) => {
-  ;
     return axiosInstance.post('/bookings', booking)
         .then(res => res.data)
         .catch((err) => Promise.reject(err.response.data.errors))
-  }
+}
 
 
-  export const createRental = (rentalData) => {
+export const createRental = (rentalData) => {
     return axiosInstance.post('/rentals', rentalData).then(
-      res => res.data,
-      err => Promise.reject(err.response.data.errors)
+        res => res.data,
+        err => Promise.reject(err.response.data.errors)
     )
-  }
+}
 
 
-  export const uploadImage = image => {
+export const uploadImage = image => {
     const formData = new FormData();
     formData.append('image', image);
-  
+
     return axiosInstance.post('/image-upload', formData)
-      .then(json => {
-        return json.data.imageUrl;
-      })
-      .catch(({response}) => Promise.reject(response.data.errors[0]))
-  }
+        .then(json => {
+            return json.data.imageUrl;
+        })
+        .catch(({ response }) => Promise.reject(response.data.errors[0]))
+}
+
+export const fetchBookingById = (bookingIds) => {
+
+    return (dispatch) => {
+        dispatch(fetchBookingByIdInit());
+        axiosInstance.get(`/bookings/${bookingIds}`).then(
+            (bookingDetails) => {
+                dispatch(fetchBookingByIdSeccess(bookingDetails.data))
+            });
+    }
+}

@@ -43,7 +43,6 @@ class Booking extends React.Component {
 
     getBookedOutDates() {
         const { bookings } = this.props.rental;
-
         if (bookings && bookings.length > 0) {
             bookings.forEach(booking => {
                 const dateRange = getRangeOfDates(booking.startAt, booking.endAt, 'Y/MM/DD');
@@ -75,7 +74,7 @@ class Booking extends React.Component {
         this.setState({
             proposedBooking: {
                 ...this.state.proposedBooking,
-                guests: parseInt(event.target.value, 10)>0?parseInt(event.target.value, 10):0
+                guests: parseInt(event.target.value, 10) > 0 ? parseInt(event.target.value, 10) : 0
             }
         })
     }
@@ -91,6 +90,15 @@ class Booking extends React.Component {
     reserveRental() {
         actions.createBooking(this.state.proposedBooking).then(
             (booking) => {
+                // local storage
+
+
+                console.log(booking);
+                let oldBookings = localStorage.getItem("bookings") > 0 ? localStorage.getItem("bookings").split(',') : [];
+                oldBookings.push(booking._id);
+
+                console.log(oldBookings);
+                localStorage.setItem('bookings', oldBookings);
                 this.addNewBookedOutDates(booking);
                 this.cancelConfirmation();
                 this.resetData();

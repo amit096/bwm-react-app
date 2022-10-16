@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import * as action from './actions/index';
 import AuthService from "./services/auth-service";
 import { RentalCreate } from './components/rental/rental-create/RentalCreate';
+import  BookingDetail  from '../src/components/booking/bookingDetail';
 
 function App() {
   const store = require('./reducers').init();
@@ -30,11 +31,11 @@ function App() {
           <Header logout={logout} />
           <div className='container'>
             <Route exact path='/' render={() => { return <Redirect to='/rentals' /> }} />
-
+            <Route exact path='/bookings' component={BookingDetail} />
             <Route exact path='/rentals' component={RentalListing} />
-            <Route  exact path='/rentals/:city/homes?' component={RentalSearchListing}  />
-            <Route  exact path='/rentals/:city/homes' component={RentalSearchListing} />
-      
+            <Route exact path='/rentals/:city/homes?' component={RentalSearchListing} />
+            <Route exact path='/rentals/:city/homes' component={RentalSearchListing} />
+
             <Route exact path='/rentals/create/new' component={RentalCreate} />
             {/* {(authService.isAuthenticated()) ?
               <Route exact path='/rentals/:id' component={RentalDetail} />

@@ -90,14 +90,8 @@ class Booking extends React.Component {
     reserveRental() {
         actions.createBooking(this.state.proposedBooking).then(
             (booking) => {
-                // local storage
-
-
-                console.log(booking);
-                let oldBookings = localStorage.getItem("bookings") > 0 ? localStorage.getItem("bookings").split(',') : [];
+                let oldBookings = localStorage.getItem("bookings").length > 0 ? localStorage.getItem("bookings").split(',') : [];
                 oldBookings.push(booking._id);
-
-                console.log(oldBookings);
                 localStorage.setItem('bookings', oldBookings);
                 this.addNewBookedOutDates(booking);
                 this.cancelConfirmation();

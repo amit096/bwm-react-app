@@ -11,7 +11,6 @@ function BookingDetail(props) {
     }, []);
     let image = process.env.PUBLIC_URL + 'https://booksync-jerga-prod.s3.amazonaws.com/uploads/rental/image/5/image.jpeg';
     let bookings = props.bookings || [];
-    console.log(bookings);
     return (
 
         Array.isArray(bookings) && bookings.length > 0 ? bookings?.map((booking) => {

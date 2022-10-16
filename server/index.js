@@ -10,12 +10,11 @@ const bookingsRoutes = require('./routes/booking');
 const path = require('path');
 
 mongoose.connect(config.DB_URL).then(() => {
-    if (process.env.NODE_ENV !== 'production') {
 
-        const fakeDb = new FakeDb();
-        fakeDb.seedDB();
-        console.log('conncetion of DB successful');
-    }
+        // const fakeDb = new FakeDb();
+        // fakeDb.seedDB();
+        // console.log('conncetion of DB successful');
+  
 });
 app.use(bodyparser.json());
 app.use('/api/v1/rentals', rentalRoutes);
@@ -23,16 +22,15 @@ app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/bookings', bookingsRoutes);
 
 
-if (process.env.NODE_ENV === 'production') {
     const appPath = path.join(__dirname, '..', 'build');
     app.use(express.static(appPath));
   
     app.get('*', function(req, res) {
-      res.sendFile(path.resolve('build/index.html'));
+      res.sendFile(path.resolve('../build/index.html'));
     });
-  }
+  
 
-const PORT = process.env.PORT || 44571;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`node is running at port ${PORT}`)

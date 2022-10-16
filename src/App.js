@@ -32,7 +32,8 @@ function App() {
             <Route exact path='/' render={() => { return <Redirect to='/rentals' /> }} />
 
             <Route exact path='/rentals' component={RentalListing} />
-            <Route  path='/rentals/:city/homes' component={RentalSearchListing} />
+            <Route  exact path='/rentals/:city/homes?' component={RentalSearchListing}  />
+            <Route  exact path='/rentals/:city/homes' component={RentalSearchListing} />
       
             <Route exact path='/rentals/create/new' component={RentalCreate} />
             {/* {(authService.isAuthenticated()) ?
